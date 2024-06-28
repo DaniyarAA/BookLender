@@ -19,9 +19,12 @@ public class Server {
         System.out.println("  удачно!");
         return server;
     }
+    private static void handleRootRequest(HttpExchange exchange) {
+        handleRequest(exchange, "Это корневой путь");
+    }
 
     public static void initRoutes(HttpServer server) {
-        server.createContext("/", Server::handleRequest);
+        server.createContext("/", Server::handleRootRequest);
         server.createContext("/apps/", Server::handleAppsRequest);
         server.createContext("/apps/profile", Server::handleProfileRequest);
     }
