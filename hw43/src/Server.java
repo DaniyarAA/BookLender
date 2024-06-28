@@ -22,6 +22,13 @@ public class Server {
         System.out.println("  удачно!");
         return server;
     }
+
+    public static void initRoutes(HttpServer server) {
+        server.createContext("/", Server::handleRootRequest);
+        server.createContext("/apps/", Server::handleAppsRequest);
+        server.createContext("/apps/profile", Server::handleProfileRequest);
+    }
+
     private static void handleRootRequest(HttpExchange exchange) {
         String path = exchange.getRequestURI().getPath();
         if (path.equals("/")) {
@@ -29,12 +36,6 @@ public class Server {
         } else {
             handleFileRequest(exchange);
         }
-    }
-
-    public static void initRoutes(HttpServer server) {
-        server.createContext("/", Server::handleRootRequest);
-        server.createContext("/apps/", Server::handleAppsRequest);
-        server.createContext("/apps/profile", Server::handleProfileRequest);
     }
 
     private static void handleAppsRequest(HttpExchange exchange) {
