@@ -70,6 +70,20 @@ public class Server {
         }
     }
 
+    private static void handleNotFound(HttpExchange exchange) {
+        try {
+            String response = "404 (Not Found)\nТакого документа нет.";
+            byte[] responseBytes = response.getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().add("Content-Type", "text/plain; charset=utf-8");
+            exchange.sendResponseHeaders(404, responseBytes.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(responseBytes);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private static void handleRequest(HttpExchange exchange, String message) {
         try {
