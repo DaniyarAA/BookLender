@@ -22,11 +22,16 @@ public class Server {
 
     public static void initRoutes(HttpServer server) {
         server.createContext("/", Server::handleRequest);
-        server.createContext("/apps/", Server::handleRequest);
+        server.createContext("/apps/", Server::handleAppsRequest);
         server.createContext("/apps/profile", Server::handleRequest);
     }
 
-    private static void handleRequest(HttpExchange exchange) {
+    private static void handleAppsRequest(HttpExchange exchange) {
+        handleRequest(exchange, "Это путь приложений");
+    }
+
+
+    private static void handleRequest(HttpExchange exchange, String message) {
         try {
             exchange.getResponseHeaders().add("Content-Type", "text/plain; charset=utf-8");
             int responseCode = 200;
