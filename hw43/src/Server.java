@@ -23,11 +23,15 @@ public class Server {
     public static void initRoutes(HttpServer server) {
         server.createContext("/", Server::handleRequest);
         server.createContext("/apps/", Server::handleAppsRequest);
-        server.createContext("/apps/profile", Server::handleRequest);
+        server.createContext("/apps/profile", Server::handleProfileRequest);
     }
 
     private static void handleAppsRequest(HttpExchange exchange) {
         handleRequest(exchange, "Это путь приложений");
+    }
+
+    private static void handleProfileRequest(HttpExchange exchange) {
+        handleRequest(exchange, "Это путь профиля");
     }
 
 
