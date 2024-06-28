@@ -23,7 +23,12 @@ public class Server {
         return server;
     }
     private static void handleRootRequest(HttpExchange exchange) {
-        handleRequest(exchange, "Это корневой путь");
+        String path = exchange.getRequestURI().getPath();
+        if (path.equals("/")) {
+            handleRequest(exchange, "Это корневой путь");
+        } else {
+            handleFileRequest(exchange);
+        }
     }
 
     public static void initRoutes(HttpServer server) {
