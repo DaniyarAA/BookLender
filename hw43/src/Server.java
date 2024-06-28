@@ -50,6 +50,7 @@ public class Server {
         String filePath = "homework" + exchange.getRequestURI().getPath();
         Path path = Paths.get(filePath);
         if (!Files.exists(path)) {
+            handleNotFound(exchange);
             return;
         }
 
