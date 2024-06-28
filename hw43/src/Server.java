@@ -7,6 +7,9 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Server {
 
@@ -37,6 +40,30 @@ public class Server {
         handleRequest(exchange, "Это путь профиля");
     }
 
+    private static void handleFileRequest(HttpExchange exchange) {
+        String filePath = "homework" + exchange.getRequestURI().getPath();
+        Path path = Paths.get(filePath);
+        if (!Files.exists(path)) {
+            return;
+        }
+
+        try {
+            String contentType = Files.probeContentType(path);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            byte[] fileData = Files.readAllBytes(path);
+            exchange.getResponseHeaders().add("Content-Type", contentType);
+            exchange.sendResponseHeaders(200, fileData.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(fileData);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private static void handleRequest(HttpExchange exchange, String message) {
         try {
@@ -59,6 +86,8 @@ public class Server {
             e.printStackTrace();
         }
     }
+
+
 
 
     private static PrintWriter getWriterFrom(HttpExchange exchange) {
