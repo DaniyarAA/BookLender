@@ -32,18 +32,18 @@ public class Server {
     private static void handleRootRequest(HttpExchange exchange) {
         String path = exchange.getRequestURI().getPath();
         if (path.equals("/")) {
-            handleRequest(exchange, "Это корневой путь");
+            handleRequest(exchange, "Обработчик корневого пути");
         } else {
             handleFileRequest(exchange);
         }
     }
 
     private static void handleAppsRequest(HttpExchange exchange) {
-        handleRequest(exchange, "Это путь приложений");
+        handleRequest(exchange, "Обработчик для путии /apps/");
     }
 
     private static void handleProfileRequest(HttpExchange exchange) {
-        handleRequest(exchange, "Это путь профиля");
+        handleRequest(exchange, "Обработчик для пути /apps/profile ");
     }
 
     private static void handleFileRequest(HttpExchange exchange) {
@@ -107,6 +107,7 @@ public class Server {
             int length = 0;
             exchange.sendResponseHeaders(responseCode, length);
             try (PrintWriter writer = getWriterFrom(exchange)) {
+                writer.println(message);
                 String method = exchange.getRequestMethod();
                 URI uri = exchange.getRequestURI();
                 String ctxPath = exchange.getHttpContext().getPath();
