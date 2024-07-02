@@ -1,13 +1,13 @@
-import com.sun.net.httpserver.HttpServer;
+package kg.attractor.java;
+
+import kg.attractor.java.lesson44.Lesson44Server;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            HttpServer server = Server.makeServer();
-            Server.initRoutes(server);
-            server.start();
+            new Lesson44Server("localhost", 9889).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
