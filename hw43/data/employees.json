@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "currentBooks": [2],
+    "historyBooks": [1]
+  },
+  {
+    "id": 2,
+    "firstName": "Bakyt",
+    "lastName": "Sharipov",
+    "currentBooks": [],
+    "history": [2]
+  }
+]

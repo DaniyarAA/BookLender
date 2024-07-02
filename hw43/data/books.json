@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "book1",
+    "author": "Djoan Roaling",
+    "image": "image_url_1",
+    "isBorrowed": false,
+    "borrowedBy": -1
+  },
+  {
+    "id": 2,
+    "title": "book2",
+    "author": "Robert C. Martin",
+    "image": "image_url_2",
+    "isBorrowed": false,
+    "borrowedBy": -1
+  }
+]
