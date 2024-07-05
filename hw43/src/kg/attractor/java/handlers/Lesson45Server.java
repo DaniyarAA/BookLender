@@ -38,6 +38,6 @@ public class Lesson45Server extends Lesson44Server {
     }
 
     private void profileGet(HttpExchange exchange) {
-        renderTemplate(exchange, "profile.ftlh", Map.of("employee", new Employee(0, "Некий", "Пользователь", "unknown", "password")));
+        renderTemplate(exchange, "profile.ftlh", Map.of("employee", new Employee(0, "Искорка", "Сумеречная", "Twilight", "SvirlBorodatyi")));
     }
 }
