@@ -25,7 +25,6 @@ public class Lesson44Server extends BasicServer {
         registerGet("/books/*", this::bookDetailHandler);
         registerGet("/employees", this::employeesHandler);
         registerGet("/employees/*", this::employeeDetailHandler);
-        registerGet("/images/*", this::imageHandler);
         registerGet("/register", this::registerGetHandler);
         registerPost("/register", this::registerPostHandler);
     }
@@ -76,19 +75,6 @@ public class Lesson44Server extends BasicServer {
         }
     }
 
-    private void imageHandler(HttpExchange exchange) {
-        String path = "lesson44/data" + exchange.getRequestURI().getPath();
-        try {
-            byte[] imageData = Files.readAllBytes(Paths.get(path));
-            exchange.getResponseHeaders().set("Content-Type", "image/jpeg");
-            exchange.sendResponseHeaders(200, imageData.length);
-            OutputStream os = exchange.getResponseBody();
-            os.write(imageData);
-            os.close();
-        } catch (IOException e) {
-            respond404(exchange);
-        }
-    }
 
     private void registerGetHandler(HttpExchange exchange) {
         renderTemplate(exchange, "register.ftlh", null);
