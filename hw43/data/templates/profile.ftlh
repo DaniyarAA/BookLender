@@ -12,6 +12,9 @@
     <p><strong>Имя:</strong> ${employee.firstName}</p>
     <p><strong>Фамилия:</strong> ${employee.lastName}</p>
     <a href="/books" class="btn btn-primary">Список книг</a>
+    <a href="/borrow" class="btn btn-primary">Взять книгу</a>
+    <a href="/return" class="btn btn-primary">Вернуть книгу</a>
+    <a href="/logout" class="btn btn-secondary">Выйти</a>
 </div>
 </body>
 </html>

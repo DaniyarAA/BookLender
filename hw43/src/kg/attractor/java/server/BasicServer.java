@@ -7,10 +7,12 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,5 +183,13 @@ public abstract class BasicServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    protected Map<String, String> parseFormData(String formData) {
+        return Arrays.stream(formData.split("&"))
+                .map(s -> s.split("="))
+                .collect(Collectors.toMap(
+                        a -> a[0],
+                        a -> a.length > 1 ? URLDecoder.decode(a[1], StandardCharsets.UTF_8) : ""
+                ));
     }
 }
