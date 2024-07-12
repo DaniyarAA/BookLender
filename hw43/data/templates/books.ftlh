@@ -25,7 +25,7 @@
                 <td>${book.title}</td>
                 <td>${book.author}</td>
                 <td><#if book.borrowed>Выдана<#else>В наличии</#if></td>
-                <td><a href="/books/${book.id}" class="btn btn-info">Просмотр</a></td>
+                <td><a href="/book?id=${book.id}" class="btn btn-info">Просмотр</a></td>
             </tr>
         </#list>
         </tbody>

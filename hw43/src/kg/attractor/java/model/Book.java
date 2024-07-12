@@ -8,7 +8,7 @@ public class Book {
     private String author;
     private String image;
     private boolean isBorrowed;
-    private int borrowedBy;
+    private String borrowedBy;
 
     public Book(int id, String title, String author, String image) {
         this.id = id;
@@ -16,7 +16,7 @@ public class Book {
         this.author = author;
         this.image = image;
         this.isBorrowed = false;
-        this.borrowedBy = -1;
+        this.borrowedBy = "none";
     }
 
     public int getId() {
@@ -43,11 +43,11 @@ public class Book {
         isBorrowed = borrowed;
     }
 
-    public int getBorrowedBy() {
+    public String getBorrowedBy() {
         return borrowedBy;
     }
 
-    public void setBorrowedBy(int borrowedBy) {
+    public void setBorrowedBy(String borrowedBy) {
         this.borrowedBy = borrowedBy;
     }
 }

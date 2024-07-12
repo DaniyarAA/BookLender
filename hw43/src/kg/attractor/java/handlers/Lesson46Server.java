@@ -1,6 +1,7 @@
 package kg.attractor.java.handlers;
 
 import com.sun.net.httpserver.HttpExchange;
+import kg.attractor.java.common.Utils;
 import kg.attractor.java.model.Book;
 import kg.attractor.java.model.Employee;
 import kg.attractor.java.server.BasicServer;
@@ -30,6 +31,9 @@ public class Lesson46Server extends BasicServer {
         registerPost("/return", this::returnPostHandler);
         registerGet("/logout", this::logoutGetHandler);
         registerGet("/books", this::booksHandler);
+        registerGet("/book", this::handleBookDetailRequest);
+        registerGet("/employees", this::employeesHandler);
+        registerGet("/employee", this::employeeDetailHandler);
     }
 
     private void registerGetHandler(HttpExchange exchange) {
@@ -110,6 +114,55 @@ public class Lesson46Server extends BasicServer {
         renderTemplate(exchange, "books.ftlh", Map.of("books", books));
     }
 
+    private void handleBookDetailRequest(HttpExchange exchange) {
+        String queryParams = getQueryParams(exchange);
+        Map<String, String> params = Utils.parseUrlEncoded(queryParams, "&");
+        String bookIdStr = params.get("id");
+        if (bookIdStr != null) {
+            try {
+                int bookId = Integer.parseInt(bookIdStr);
+                Book book = books.stream().filter(b -> b.getId() == bookId).findFirst().orElse(null);
+
+                if (book != null) {
+                    renderTemplate(exchange, "book.ftlh", Map.of("book", book));
+                } else {
+                    respond404(exchange);
+                }
+            } catch (NumberFormatException e) {
+                respond404(exchange);
+            }
+        } else {
+            respond404(exchange);
+        }
+    }
+
+
+    private void employeesHandler(HttpExchange exchange) {
+        renderTemplate(exchange, "employees.ftlh", Map.of("employees", employees, "books", books));
+    }
+
+    private void employeeDetailHandler(HttpExchange exchange) {
+        String queryParams = getQueryParams(exchange);
+        Map<String, String> params = Utils.parseUrlEncoded(queryParams, "&");
+        String employeeIdStr = params.get("id");
+        if (employeeIdStr != null) {
+            try {
+                int employeeId = Integer.parseInt(employeeIdStr);
+                Employee employee = employees.stream().filter(e -> e.getId() == employeeId).findFirst().orElse(null);
+
+                if (employee != null) {
+                    renderTemplate(exchange, "employee.ftlh", Map.of("employee", employee, "books", books));
+                } else {
+                    respond404(exchange);
+                }
+            } catch (NumberFormatException e) {
+                respond404(exchange);
+            }
+        } else {
+            respond404(exchange);
+        }
+    }
+
     private void borrowGetHandler(HttpExchange exchange) {
         if (!isAuthenticated(exchange)) {
             redirect303(exchange, "/login");
@@ -149,7 +202,7 @@ public class Lesson46Server extends BasicServer {
 
             if (book != null) {
                 book.setBorrowed(true);
-                book.setBorrowedBy(employee.getId());
+                book.setBorrowedBy(employee.getFirstName());
                 employee.borrowBook(book.getId());
                 DataHandler.saveBooks(books);
                 DataHandler.saveEmployees(employees);
@@ -200,13 +253,13 @@ public class Lesson46Server extends BasicServer {
 
         if (employee != null) {
             Book book = books.stream()
-                    .filter(b -> b.getId() == bookId && b.isBorrowed() && b.getBorrowedBy() == employee.getId())
+                    .filter(b -> b.getId() == bookId && b.isBorrowed() && b.getBorrowedBy() == employee.getFirstName())
                     .findFirst()
                     .orElse(null);
 
             if (book != null) {
                 book.setBorrowed(false);
-                book.setBorrowedBy(-1);
+                book.setBorrowedBy("none");
                 employee.returnBook(book.getId());
                 DataHandler.saveBooks(books);
                 DataHandler.saveEmployees(employees);
@@ -249,5 +302,10 @@ public class Lesson46Server extends BasicServer {
 
     protected void setCookie(HttpExchange exchange, Cookie cookie) {
         exchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
+    }
+
+    protected String getQueryParams(HttpExchange exchange) {
+        String query = exchange.getRequestURI().getQuery();
+        return Objects.nonNull(query) ? query : "";
     }
 }
