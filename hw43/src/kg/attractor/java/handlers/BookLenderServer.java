@@ -12,14 +12,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Lesson46Server extends BasicServer {
+public class BookLenderServer extends BasicServer {
 
     private static final List<Book> books = DataHandler.loadBooks();
     private static final List<Employee> employees = DataHandler.loadEmployees();
-    private static final Map<String, String> sessions = SessionHandler.loadSessions();;
 
 
-    public Lesson46Server(String host, int port) throws IOException {
+    public BookLenderServer(String host, int port) throws IOException {
         super(host, port);
         registerGet("/register", this::registerGetHandler);
         registerPost("/register", this::registerPostHandler);
