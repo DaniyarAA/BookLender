@@ -16,7 +16,8 @@ public class Lesson46Server extends BasicServer {
 
     private static final List<Book> books = DataHandler.loadBooks();
     private static final List<Employee> employees = DataHandler.loadEmployees();
-    private static final Map<String, String> sessions = new HashMap<>();
+    private static final Map<String, String> sessions = SessionHandler.loadSessions();;
+
 
     public Lesson46Server(String host, int port) throws IOException {
         super(host, port);
@@ -80,7 +81,7 @@ public class Lesson46Server extends BasicServer {
 
         if (employee != null) {
             String sessionId = UUID.randomUUID().toString();
-            sessions.put(sessionId, identifier);
+            SessionHandler.addSession(sessionId, identifier);
             Cookie<String> sessionCookie = Cookie.make("sessionId", sessionId);
             sessionCookie.setMaxAge(600);
             sessionCookie.setHttpOnly(true);
@@ -97,7 +98,7 @@ public class Lesson46Server extends BasicServer {
             return;
         }
         String sessionId = getSessionId(exchange);
-        String identifier = sessions.get(sessionId);
+        String identifier = SessionHandler.getUserIdentifier(sessionId);
         Employee employee = employees.stream()
                 .filter(e -> e.getIdentifier().equals(identifier))
                 .findFirst()
@@ -182,7 +183,7 @@ public class Lesson46Server extends BasicServer {
 
         int bookId = Integer.parseInt(params.get("bookId"));
         String sessionId = getSessionId(exchange);
-        String identifier = sessions.get(sessionId);
+        String identifier = SessionHandler.getUserIdentifier(sessionId);
 
         Employee employee = employees.stream()
                 .filter(e -> e.getIdentifier().equals(identifier))
@@ -219,7 +220,7 @@ public class Lesson46Server extends BasicServer {
             return;
         }
         String sessionId = getSessionId(exchange);
-        String identifier = sessions.get(sessionId);
+        String identifier = SessionHandler.getUserIdentifier(sessionId);
         Employee employee = employees.stream()
                 .filter(e -> e.getIdentifier().equals(identifier))
                 .findFirst()
@@ -244,7 +245,7 @@ public class Lesson46Server extends BasicServer {
 
         int bookId = Integer.parseInt(params.get("bookId"));
         String sessionId = getSessionId(exchange);
-        String identifier = sessions.get(sessionId);
+        String identifier = SessionHandler.getUserIdentifier(sessionId);
 
         Employee employee = employees.stream()
                 .filter(e -> e.getIdentifier().equals(identifier))
@@ -253,7 +254,7 @@ public class Lesson46Server extends BasicServer {
 
         if (employee != null) {
             Book book = books.stream()
-                    .filter(b -> b.getId() == bookId && b.isBorrowed() && b.getBorrowedBy() == employee.getFirstName())
+                    .filter(b -> b.getId() == bookId && b.isBorrowed() && b.getBorrowedBy().equals(employee.getFirstName()))
                     .findFirst()
                     .orElse(null);
 
@@ -274,7 +275,7 @@ public class Lesson46Server extends BasicServer {
     private void logoutGetHandler(HttpExchange exchange) {
         String sessionId = getSessionId(exchange);
         if (sessionId != null) {
-            sessions.remove(sessionId);
+            SessionHandler.removeSession(sessionId);
             Cookie<String> sessionCookie = Cookie.make("sessionId", "");
             sessionCookie.setMaxAge(0);
             sessionCookie.setHttpOnly(true);
@@ -285,7 +286,7 @@ public class Lesson46Server extends BasicServer {
 
     private boolean isAuthenticated(HttpExchange exchange) {
         String sessionId = getSessionId(exchange);
-        return sessionId != null && sessions.containsKey(sessionId);
+        return sessionId != null && SessionHandler.containsSession(sessionId);
     }
 
     private String getSessionId(HttpExchange exchange) {
