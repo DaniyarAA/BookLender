@@ -7,7 +7,13 @@
 </head>
 <body>
 <div class="container">
-    <h1>Список книг</h1>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
+        <h1>Список книг</h1>
+        <div>
+            <a href="/employees" class="btn btn-info mr-2">Список сотрудников</a>
+            <a href="/profile" class="btn btn-info">Мой профиль</a>
+        </div>
+    </div>
     <table class="table">
         <thead>
         <tr>

@@ -7,7 +7,13 @@
 </head>
 <body>
 <div class="container">
-    <h1>Список сотрудников</h1>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
+        <h1>Список сотрудников</h1>
+        <div>
+            <a href="/books" class="btn btn-info mr-2">Список книг</a>
+            <a href="/profile" class="btn btn-info">Мой профиль</a>
+        </div>
+    </div>
     <table class="table">
         <thead>
         <tr>
@@ -30,7 +36,7 @@
                         <span class="badge badge-info">${book.title}</span><br>
                     </#list>
                 </td>
-                <td><a href="/employees/${employee.id}" class="btn btn-info">Просмотр</a></td>
+                <td><a href="/employee?id=${employee.id}" class="btn btn-info">Просмотр</a></td>
             </tr>
         </#list>
         </tbody>

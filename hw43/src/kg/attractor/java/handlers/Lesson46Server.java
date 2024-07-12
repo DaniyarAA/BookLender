@@ -104,7 +104,7 @@ public class Lesson46Server extends BasicServer {
                 .orElse(null);
 
         if (employee != null) {
-            renderTemplate(exchange, "profile.ftlh", Map.of("employee", employee));
+            renderTemplate(exchange, "profile.ftlh", Map.of("employee", employee, "books", books));
         } else {
             renderTemplate(exchange, "profile.ftlh", Map.of("employee", new Employee(0, "Некий", "Пользователь", "unknown", "password")));
         }

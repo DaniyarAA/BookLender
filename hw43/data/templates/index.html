@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Login form</title>
-    <link rel="stylesheet" href="../css/forms.css">
+    <title>BookLender</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .hero {
+            background: url(../images/booklll.jpg) no-repeat center center;
+            background-size: cover;
+
+            text-align: center;
+            padding: 100px 0;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: bold;
+        }
+        .btn-custom {
+            margin: 10px;
+            padding: 10px 20px;
+        }
+        .container .row {
+            margin-top: 50px;
+        }
+    </style>
 </head>
-
 <body>
-    <main>
-        <form action="/login" method="post">
-            <fieldset>
-                <div class="legend">
-                    <p>Welcome!</p>
-                    <img src="/images/1.jpg" alt="coins" style="display:block; width: 200px; height: 200px;">
+<header class="hero">
+    <div class="container hero">
+        <h1>BookLender</h1>
+        <p>Управляйте библиотекой с легкостью</p>
+        <a href="/login" class="btn btn-primary btn-custom">Вход</a>
+        <a href="/register" class="btn btn-success btn-custom">Регистрация</a>
+    </div>
+</header>
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Список сотрудников</h2>
+                    <p class="card-text">Просматривайте список сотрудников вашей библиотеки</p>
+                    <a href="/employees" class="btn btn-primary">Перейти</a>
                 </div>
-                <div class="form-element">
-                    <label for="user-email">email</label>
-                    <input type="email" name="email" id="user-email" placeholder="your email" required autofocus>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Список книг</h2>
+                    <p class="card-text">Просматривайте и управляйте книгами в библиотеке</p>
+                    <a href="/books" class="btn btn-primary">Перейти</a>
                 </div>
-                <div class="form-element">
-                    <label for="user-password">password</label>
-                    <input type="password" name="user-password" id="user-password" placeholder="your password" required>
-                </div>
-                <div class="hr-line">
-                    <span class="details">one more step to go</span>
-                </div>
-                <div class="form-element">
-                    <button class="register-button" type="submit">Login!</button>
-                </div>
-            </fieldset>
-        </form>
-    </main>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-
 </html>

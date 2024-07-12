@@ -24,7 +24,7 @@
                     <input type="password" class="form-control" id="password" name="password" placeholder="your password" required>
                 </div>
                 <div class="form-element">
-                    <button class="register-button" type="submit">Login!</button>
+                    <button class="register-button" type="submit">Вход</button>
                 </div>
                 <div class="form-element">
                     <button class="register-button" onclick="window.location.href='/register'">Регистрация</button>
